@@ -87,9 +87,7 @@ exports.tasks = {
         return generators[type] ? generators[type]() : null;
     },
     'wait'(ms) {
-        return new Promise((resolve) => {
-            setTimeout(() => resolve(null), ms);
-        });
+        return new Promise((r) => setTimeout(() => r(null), ms));
     },
     'log:timestamp'(message) {
         console.log(`[${new Date().toISOString()}] ${message}`);

@@ -1,4 +1,3 @@
-export type { LoginCredentials } from '../types/cypress';
 export interface TestUser {
     id?: string;
     email: string;

@@ -6,7 +6,7 @@ export declare const tasks: {
     }): boolean;
     'file:delete'(filepath: string): boolean;
     'data:generate'(type: string): any;
-    wait(ms: number): null;
+    wait(ms: number): Promise<null>;
     'log:timestamp'(message: string): null;
 };
 export default tasks;

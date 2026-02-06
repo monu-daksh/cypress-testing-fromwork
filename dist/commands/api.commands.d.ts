@@ -1,7 +1,3 @@
-interface ApiRequestOptions extends Partial<Cypress.RequestOptions> {
-    auth?: boolean;
-    retries?: number;
-}
 declare global {
     namespace Cypress {
         interface Chainable {

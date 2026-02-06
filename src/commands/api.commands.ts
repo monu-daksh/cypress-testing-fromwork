@@ -71,7 +71,7 @@ declare global {
 }
 
 // Base API request with auth
-Cypress.Commands.add('apiRequest', (options: ApiRequestOptions) => {
+Cypress.Commands.add('apiRequest', (options: Cypress.ApiRequestOptions) => {
   const { auth = true, retries = 0, ...requestOptions } = options;
   
   const token = auth ? window.localStorage.getItem('authToken') || Cypress.env('authToken') : null;
@@ -101,23 +101,23 @@ Cypress.Commands.add('apiRequest', (options: ApiRequestOptions) => {
 });
 
 // HTTP method shortcuts
-Cypress.Commands.add('apiGet', (url: string, options: ApiRequestOptions = {}) => {
+Cypress.Commands.add('apiGet', (url: string, options: Cypress.ApiRequestOptions = {}) => {
   return cy.apiRequest({ method: 'GET', url, ...options });
 });
 
-Cypress.Commands.add('apiPost', (url: string, body?: any, options: ApiRequestOptions = {}) => {
+Cypress.Commands.add('apiPost', (url: string, body?: any, options: Cypress.ApiRequestOptions = {}) => {
   return cy.apiRequest({ method: 'POST', url, body, ...options });
 });
 
-Cypress.Commands.add('apiPut', (url: string, body?: any, options: ApiRequestOptions = {}) => {
+Cypress.Commands.add('apiPut', (url: string, body?: any, options: Cypress.ApiRequestOptions = {}) => {
   return cy.apiRequest({ method: 'PUT', url, body, ...options });
 });
 
-Cypress.Commands.add('apiPatch', (url: string, body?: any, options: ApiRequestOptions = {}) => {
+Cypress.Commands.add('apiPatch', (url: string, body?: any, options: Cypress.ApiRequestOptions = {}) => {
   return cy.apiRequest({ method: 'PATCH', url, body, ...options });
 });
 
-Cypress.Commands.add('apiDelete', (url: string, options: ApiRequestOptions = {}) => {
+Cypress.Commands.add('apiDelete', (url: string, options: Cypress.ApiRequestOptions = {}) => {
   return cy.apiRequest({ method: 'DELETE', url, ...options });
 });
 

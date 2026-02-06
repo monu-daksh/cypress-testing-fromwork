@@ -21,17 +21,13 @@ const globalAfter = () => {
 exports.globalAfter = globalAfter;
 const initializeDatabase = () => {
     before(() => {
-        cy.task('db:seed', null, { log: false }).catch(() => {
-            cy.log(' Database seeding task not available');
-        });
+        cy.task('db:seed', null, { log: false });
     });
 };
 exports.initializeDatabase = initializeDatabase;
 const cleanupDatabase = () => {
     after(() => {
-        cy.task('db:cleanup', null, { log: false }).catch(() => {
-            cy.log('Database cleanup task not available');
-        });
+        cy.task('db:cleanup', null, { log: false });
     });
 };
 exports.cleanupDatabase = cleanupDatabase;

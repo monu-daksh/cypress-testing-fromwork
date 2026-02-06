@@ -79,12 +79,9 @@ export const tasks = {
   /**
    * Wait/sleep task
    */
-  'wait'(ms: number): null {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(null), ms);
-    });
-  },
-
+ 'wait'(ms: number): Promise<null> {
+  return new Promise((r) => setTimeout(() => r(null), ms));
+},
   /**
    * Log with timestamp
    */

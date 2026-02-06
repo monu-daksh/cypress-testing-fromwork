@@ -25,9 +25,9 @@ const setupCustomTasks = (on) => {
         'file:read'(filepath) {
             return null;
         },
-        'file:write'({ filepath, content }) {
+        'file:write'({ filepath: _filepath, content: _content }) {
             return null;
-        },
+        }
     });
 };
 exports.setupCustomTasks = setupCustomTasks;

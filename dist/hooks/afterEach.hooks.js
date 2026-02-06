@@ -26,15 +26,14 @@ const logTestCompletion = () => {
 exports.logTestCompletion = logTestCompletion;
 const collectTestMetrics = () => {
     afterEach(function () {
-        const duration = this.currentTest?.duration || 0;
+        const duration = this.currentTest?.duration ?? 0;
         const state = this.currentTest?.state;
         cy.task('logTestMetric', {
             test: this.currentTest?.title,
             duration,
             state,
             timestamp: new Date().toISOString(),
-        }, { log: false }).catch(() => {
-        });
+        }, { log: false });
     });
 };
 exports.collectTestMetrics = collectTestMetrics;
@@ -53,23 +52,20 @@ const clearApiMocks = () => {
 };
 exports.clearApiMocks = clearApiMocks;
 const checkConsoleErrors = () => {
-    afterEach(function () {
-        cy.get('@consoleError', { timeout: 0 })
-            .should((stub) => {
-            const allowedErrors = [
-                'ResizeObserver',
-                'Hydration',
-            ];
+    afterEach(() => {
+        cy.get('@consoleError', { log: false }).then((stub) => {
+            if (!stub)
+                return;
+            const allowedErrors = ['ResizeObserver', 'Hydration'];
             const calls = stub.getCalls();
             const unexpectedErrors = calls.filter((call) => {
                 const message = call.args[0];
-                return !allowedErrors.some(allowed => message?.toString().includes(allowed));
+                return !allowedErrors.some(a => message?.toString().includes(a));
             });
             if (unexpectedErrors.length > 0) {
-                cy.log(' Console errors detected:', unexpectedErrors);
+                cy.log('Console errors detected');
+                throw new Error(JSON.stringify(unexpectedErrors));
             }
-        })
-            .catch(() => {
         });
     });
 };

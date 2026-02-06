@@ -1,11 +1,3 @@
-interface LoginCredentials {
-    email: string;
-    password: string;
-}
-interface RegisterCredentials extends LoginCredentials {
-    name?: string;
-    confirmPassword?: string;
-}
 declare global {
     namespace Cypress {
         interface Chainable {

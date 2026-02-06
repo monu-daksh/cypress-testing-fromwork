@@ -6,7 +6,7 @@ export declare class TestHelpers {
     static formatCurrency(amount: number, currency?: string): string;
     static formatDate(date: Date | string, format?: string): string;
     static deepClone<T>(obj: T): T;
-    static sleep(ms: number): Cypress.Chainable<void>;
+    static sleep(ms: number): Cypress.Chainable<undefined>;
     static retryUntil<T>(fn: () => Cypress.Chainable<T>, condition: (value: T) => boolean, options?: {
         maxRetries?: number;
         delay?: number;

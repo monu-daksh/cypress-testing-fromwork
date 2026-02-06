@@ -16,9 +16,10 @@ beforeEach(() => {
         cy.clearLocalStorage();
     }
 });
-afterEach(() => {
-    if (Cypress.currentTest?.state === 'failed') {
-        const screenshotName = `${Cypress.currentTest.titlePath.join(' - ')}-FAILED`;
+afterEach(function () {
+    const test = this.currentTest;
+    if (test?.state === 'failed') {
+        const screenshotName = `${test.titlePath().join(' - ')}-FAILED`;
         cy.screenshot(screenshotName);
     }
 });

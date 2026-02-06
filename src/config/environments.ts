@@ -82,7 +82,7 @@ export const applyEnvironmentConfig = (
   
   Cypress.config('baseUrl', config.baseUrl);
   Cypress.config('defaultCommandTimeout', config.timeout);
-  Cypress.config('video', config.video);
+  // Cypress.config('video', config.video);
   
   Cypress.env('apiUrl', config.apiUrl);
   Cypress.env('environment', config.name);

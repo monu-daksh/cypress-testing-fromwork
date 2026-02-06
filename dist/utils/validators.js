@@ -50,12 +50,11 @@ class Validators {
         let sum = 0;
         let isEven = false;
         for (let i = digits.length - 1; i >= 0; i--) {
-            let digit = parseInt(digits[i], 10);
+            let digit = digits.charCodeAt(i) - 48;
             if (isEven) {
                 digit *= 2;
-                if (digit > 9) {
+                if (digit > 9)
                     digit -= 9;
-                }
             }
             sum += digit;
             isEven = !isEven;
