@@ -126,12 +126,13 @@ Cypress.Commands.add(
 // API response assertions
 Cypress.Commands.add(
   'shouldHaveStatus',
-  { prevSubject: true },
-  (subject, status: number) => {
+  { prevSubject: true as const },
+  (subject: Cypress.Response<any>, status: number) => {
     expect(subject.status).to.eq(status);
     return cy.wrap(subject);
   }
 );
+
 
 Cypress.Commands.add(
   'shouldHaveProperty',

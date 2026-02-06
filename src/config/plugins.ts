@@ -7,7 +7,7 @@
  * - Custom plugins
  */
 
-import type { PluginConfigOptions } from 'cypress';
+
 
 /**
  * Setup code coverage plugin
@@ -32,36 +32,35 @@ export const setupCustomTasks = (
       console.log(message);
       return null;
     },
-    
+
     // Log test metrics
     logTestMetric(metric: any) {
       console.log('Test Metric:', metric);
       return null;
     },
-    
+
     // Database tasks (examples)
     'db:seed'() {
       console.log('Seeding database...');
       // Add database seeding logic
       return null;
     },
-    
+
     'db:cleanup'() {
       console.log('Cleaning up database...');
       // Add database cleanup logic
       return null;
     },
-    
+
     // File operations
     'file:read'(filepath: string) {
       // Read file and return contents
       return null;
     },
-    
-    'file:write'({ filepath, content }: { filepath: string; content: string }) {
-      // Write content to file
+
+    'file:write'({ filepath: _filepath, content: _content }: { filepath: string; content: string }) {
       return null;
-    },
+    }
   });
 };
 
@@ -78,12 +77,12 @@ export const setupBrowserLaunchOptions = (
       launchOptions.args.push('--disable-gpu');
       launchOptions.args.push('--no-sandbox');
     }
-    
+
     // Firefox-specific options
     if (browser.family === 'firefox') {
       launchOptions.args.push('-private');
     }
-    
+
     return launchOptions;
   });
 };
@@ -97,13 +96,13 @@ export const setupPlugins = (
 ): Cypress.PluginConfigOptions => {
   // Setup custom tasks
   setupCustomTasks(on);
-  
+
   // Setup browser options
   setupBrowserLaunchOptions(on);
-  
+
   // Setup code coverage (if needed)
   // setupCodeCoverage(on, config);
-  
+
   return config;
 };
 

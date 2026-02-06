@@ -5,8 +5,10 @@
 
 /// <reference types="cypress" />
 
-declare namespace Cypress {
-  interface Chainable {
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      
     // DOM Commands
     getByTestId(testId: string): Chainable<JQuery<HTMLElement>>;
     getByRole(role: string, name?: string): Chainable<JQuery<HTMLElement>>;
@@ -67,6 +69,7 @@ declare namespace Cypress {
     name?: string;
     confirmPassword?: string;
   }
+}
 }
 
 export {};

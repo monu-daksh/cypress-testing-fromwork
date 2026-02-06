@@ -13,7 +13,7 @@
  */
 
 interface ApiRequestOptions extends Partial<Cypress.RequestOptions> {
-  auth?: boolean;
+  withAuth?: boolean;
   retries?: number;
 }
 
@@ -77,25 +77,25 @@ Cypress.Commands.add('apiRequest', (options: ApiRequestOptions) => {
   const token = auth ? window.localStorage.getItem('authToken') || Cypress.env('authToken') : null;
   const baseUrl = Cypress.env('apiUrl') || Cypress.config('baseUrl');
 
-  const makeRequest = (attempt = 0): Cypress.Chainable<Response<any>> => {
-    return cy.request({
-      ...requestOptions,
-      url: `${baseUrl}${requestOptions.url}`,
-      headers: {
-        'Content-Type': 'application/json',
-        ...requestOptions.headers,
-        ...(token && { Authorization: `Bearer ${token}` }),
-      },
-      failOnStatusCode: false,
-    }).then((response) => {
-      // Retry logic for 5xx errors
-      if (response.status >= 500 && attempt < retries) {
-        cy.wait(1000 * (attempt + 1)); // Exponential backoff
-        return makeRequest(attempt + 1);
-      }
-      return cy.wrap(response);
-    });
-  };
+ const makeRequest = (attempt = 0): Cypress.Chainable<Cypress.Response<any>> => {
+  return cy.request({
+    ...requestOptions,
+    url: `${baseUrl}${requestOptions.url}`,
+    headers: {
+      'Content-Type': 'application/json',
+      ...requestOptions.headers,
+      ...(token && { Authorization: `Bearer ${token}` }),
+    },
+    failOnStatusCode: false,
+  }).then((response) => {
+    if (response.status >= 500 && attempt < retries) {
+      cy.wait(1000 * (attempt + 1));
+      return makeRequest(attempt + 1);
+    }
+    return cy.wrap(response);
+  });
+};
+
 
   return makeRequest();
 });

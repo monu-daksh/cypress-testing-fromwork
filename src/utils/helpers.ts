@@ -32,11 +32,11 @@ export class TestHelpers {
 
     const chars = charsets[charset as keyof typeof charsets] || charsets.alphanumeric;
     let result = '';
-    
+
     for (let i = 0; i < length; i++) {
       result += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-    
+
     return result;
   }
 
@@ -61,7 +61,7 @@ export class TestHelpers {
         win.fetch = function (...args) {
           requestCount++;
           clearTimeout(idleTimer);
-          
+
           return originalFetch.apply(this, args).finally(() => {
             requestCount--;
             if (requestCount === 0) {
@@ -72,19 +72,21 @@ export class TestHelpers {
 
         // Track XHR requests
         const originalOpen = win.XMLHttpRequest.prototype.open;
-        win.XMLHttpRequest.prototype.open = function (...args) {
+
+        win.XMLHttpRequest.prototype.open = function (...args: any[]) {
           requestCount++;
           clearTimeout(idleTimer);
-          
+
           this.addEventListener('loadend', () => {
             requestCount--;
             if (requestCount === 0) {
               idleTimer = setTimeout(resolve, timeout);
             }
           });
-          
-          return originalOpen.apply(this, args);
+
+          return originalOpen.apply(this, args as any);
         };
+
 
         // Initial check
         if (requestCount === 0) {
@@ -112,7 +114,7 @@ export class TestHelpers {
     const year = d.getFullYear();
     const month = String(d.getMonth() + 1).padStart(2, '0');
     const day = String(d.getDate()).padStart(2, '0');
-    
+
     return format
       .replace('YYYY', String(year))
       .replace('MM', month)
@@ -129,7 +131,7 @@ export class TestHelpers {
   /**
    * Sleep/wait utility
    */
-  static sleep(ms: number): Cypress.Chainable<void> {
+  static sleep(ms: number): Cypress.Chainable<undefined> {
     return cy.wait(ms);
   }
 
@@ -149,12 +151,12 @@ export class TestHelpers {
         if (condition(value)) {
           return cy.wrap(value);
         }
-        
+
         attempts++;
         if (attempts >= maxRetries) {
           throw new Error(`Retry limit reached after ${maxRetries} attempts`);
         }
-        
+
         return cy.wait(delay).then(() => attempt());
       });
     };

@@ -5,7 +5,7 @@
  */
 
 // Re-export types from commands
-export type { LoginCredentials } from '../types/cypress';
+
 
 // Test data types
 export interface TestUser {

@@ -40,20 +40,23 @@ export const logTestCompletion = (): void => {
  * Collect test metrics
  */
 export const collectTestMetrics = (): void => {
-  afterEach(function() {
-    const duration = this.currentTest?.duration || 0;
+  afterEach(function () {
+    const duration = this.currentTest?.duration ?? 0;
     const state = this.currentTest?.state;
-    
-    cy.task('logTestMetric', {
-      test: this.currentTest?.title,
-      duration,
-      state,
-      timestamp: new Date().toISOString(),
-    }, { log: false }).catch(() => {
-      // Ignore if task not defined
-    });
+
+    cy.task(
+      'logTestMetric',
+      {
+        test: this.currentTest?.title,
+        duration,
+        state,
+        timestamp: new Date().toISOString(),
+      },
+      { log: false }
+    );
   });
 };
+
 
 /**
  * Clean up test data
@@ -82,32 +85,29 @@ export const clearApiMocks = (): void => {
  * Check for console errors
  */
 export const checkConsoleErrors = (): void => {
-  afterEach(function() {
-    cy.get('@consoleError', { timeout: 0 })
-      .should((stub) => {
-        // Allow certain errors to pass
-        const allowedErrors = [
-          'ResizeObserver',
-          'Hydration',
-        ];
-        
-        const calls = (stub as any).getCalls();
-        const unexpectedErrors = calls.filter((call: any) => {
-          const message = call.args[0];
-          return !allowedErrors.some(allowed => 
-            message?.toString().includes(allowed)
-          );
-        });
-        
-        if (unexpectedErrors.length > 0) {
-          cy.log(' Console errors detected:', unexpectedErrors);
-        }
-      })
-      .catch(() => {
-        // Ignore if stub doesn't exist
+  afterEach(() => {
+    cy.get('@consoleError', { log: false }).then((stub: any) => {
+      if (!stub) return;
+
+      const allowedErrors = ['ResizeObserver', 'Hydration'];
+
+      const calls = stub.getCalls();
+
+      const unexpectedErrors = calls.filter((call: any) => {
+        const message = call.args[0];
+        return !allowedErrors.some(a =>
+          message?.toString().includes(a)
+        );
       });
+
+      if (unexpectedErrors.length > 0) {
+        cy.log('Console errors detected');
+        throw new Error(JSON.stringify(unexpectedErrors));
+      }
+    });
   });
 };
+
 
 /**
  * Wait for pending requests

@@ -42,9 +42,7 @@ export const globalAfter = (): void => {
  */
 export const initializeDatabase = (): void => {
   before(() => {
-    cy.task('db:seed', null, { log: false }).catch(() => {
-      cy.log(' Database seeding task not available');
-    });
+    cy.task('db:seed', null, { log: false });
   });
 };
 
@@ -53,9 +51,7 @@ export const initializeDatabase = (): void => {
  */
 export const cleanupDatabase = (): void => {
   after(() => {
-    cy.task('db:cleanup', null, { log: false }).catch(() => {
-      cy.log('Database cleanup task not available');
-    });
+    cy.task('db:cleanup', null, { log: false });
   });
 };
 

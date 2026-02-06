@@ -59,7 +59,7 @@ export class ApiInterceptors {
    * Mock API failure
    */
   static mockFailure(
-    method: string,
+   method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
     url: string,
     statusCode = 500,
     options: InterceptOptions = {}
@@ -92,7 +92,7 @@ export class ApiInterceptors {
    */
   static mockMultiple(
     mocks: Array<{
-      method: string;
+      method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
       url: string;
       response: any;
       statusCode?: number;
@@ -130,7 +130,7 @@ export class ApiInterceptors {
    * Mock with dynamic response based on request
    */
   static mockDynamic(
-    method: string,
+    method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
     url: string,
     handler: (req: any) => any,
     alias = 'dynamicRequest'
