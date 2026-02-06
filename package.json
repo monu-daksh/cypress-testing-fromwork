@@ -1,5 +1,5 @@
 {
-  "name": "@axway/cypress-testing-framework cypress",
+  "name": "@axway/cypress-testing-framework",
   "version": "1.0.0",
   "description": "A comprehensive, framework-agnostic Cypress testing library for modern JavaScript applications",
   "main": "dist/index.js",
